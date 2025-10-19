@@ -4,13 +4,23 @@
   "linter": {
     "rules": {
       "performance": {
-        "noImgElement": "off"
+        "noImgElement": "off",
+        "noNamespaceImport": "off"
       },
       "a11y": {
         "noSvgWithoutTitle": "off"
       },
       "nursery": {
         "useImageSize": "off"
+      },
+      "suspicious": {
+        "noConsole": "off"
+      },
+      "style": {
+        "noMagicNumbers": "off"
+      },
+      "complexity": {
+        "noUselessCatch": "off"
       }
     }
   }
