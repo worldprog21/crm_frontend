@@ -42,7 +42,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
           if (data.token && data.email) {
             return {
-              id: data.email,
+              id: data.id,
               email: data.email,
               token: data.token,
             };
@@ -56,12 +56,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     jwt({ token, user }) {
       if (user) {
+        token.id = user.id;
         token.accessToken = user.token;
         token.email = user.email;
       }
       return token;
     },
     session({ session, token }) {
+      session.user.id = token.id as string;
       session.user.email = token.email as string;
       session.accessToken = token.accessToken as string;
       return session;
