@@ -14,7 +14,8 @@
         "useImageSize": "off"
       },
       "suspicious": {
-        "noConsole": "off"
+        "noConsole": "off",
+        "noExplicitAny": "off"
       },
       "style": {
         "noMagicNumbers": "off"

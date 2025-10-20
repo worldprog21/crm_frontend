@@ -25,20 +25,15 @@ import {
 } from "@/components/ui/sidebar";
 
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/dashboard",
       icon: IconLayoutDashboard,
     },
     {
       title: "Leads",
-      url: "#",
+      url: "/dashboard/leads",
       icon: IconListDetails,
     },
     {
