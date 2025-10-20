@@ -18,10 +18,12 @@
         "noExplicitAny": "off"
       },
       "style": {
-        "noMagicNumbers": "off"
+        "noMagicNumbers": "off",
+        "noNestedTernary": "off"
       },
       "complexity": {
-        "noUselessCatch": "off"
+        "noUselessCatch": "off",
+        "noExcessiveCognitiveComplexity": "off"
       }
     }
   }

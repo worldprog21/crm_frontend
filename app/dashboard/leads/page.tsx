@@ -1,5 +1,17 @@
 "use client";
 
+import LeadFromDialog from "@/components/lead-form-dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -12,21 +24,18 @@ import {
 import { useLeads } from "@/hooks/useLeads";
 
 export default function Page() {
-  const { leadsQuery, createLead, updateLead, deleteLead } = useLeads();
+  const { leadsQuery, deleteLead } = useLeads();
+
+  const handleDelete = (id: string) => {
+    deleteLead.mutate(id);
+  };
 
   return (
     <div className="space-y-4 p-6">
-      <h1 className="font-bold text-2xl">Leads Dashboard</h1>
-
       <div className="flex items-center justify-between">
         <h2 className="font-semibold text-xl">Leads</h2>
 
-        <Button
-          disabled={createLead.isPending}
-          onClick={() => createLead.mutate()}
-        >
-          {createLead.isPending ? "Creating..." : "Create Lead"}
-        </Button>
+        <LeadFromDialog />
       </div>
 
       {leadsQuery.isLoading ? (
@@ -51,21 +60,32 @@ export default function Page() {
                 <TableCell>{lead.phone}</TableCell>
                 <TableCell>{lead.status}</TableCell>
                 <TableCell className="space-x-2 text-right">
-                  <Button
-                    onClick={() => updateLead.mutate(lead)}
-                    size="sm"
-                    variant="outline"
-                  >
-                    Update
-                  </Button>
+                  <LeadFromDialog lead={lead} />
 
-                  <Button
-                    onClick={() => deleteLead.mutate(lead.id)}
-                    size="sm"
-                    variant="destructive"
-                  >
-                    Delete
-                  </Button>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button size="sm" variant="destructive">
+                        Delete
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This action will permanently delete the lead. You
+                          cannot undo this.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={() => handleDelete(lead.id)}
+                        >
+                          Yes, delete
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </TableCell>
               </TableRow>
             ))}

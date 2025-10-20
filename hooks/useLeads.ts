@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import api from "@/lib/axios";
+import type { LeadFormValues } from "@/lib/lead-schema";
 import type { Lead } from "@/types/lead";
 
 export function useLeads() {
@@ -13,23 +14,14 @@ export function useLeads() {
     },
   });
 
-  const createLead = useMutation<Lead>({
-    mutationFn: async () =>
-      await api.post("/leads", {
-        name: "New Lead",
-        email: "new.lead@example.com",
-        phone: "+1 202-555-0100",
-        status: "New",
-      }),
+  const createLead = useMutation({
+    mutationFn: async (data: LeadFormValues) => await api.post("/leads", data),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["leads"] }),
   });
 
   const updateLead = useMutation({
-    mutationFn: async (lead: Lead) =>
-      await api.put(`/leads/${lead.id}`, {
-        ...lead,
-        status: "Qualified",
-      }),
+    mutationFn: async ({ id, data }: { id: string; data: LeadFormValues }) =>
+      await api.put(`/leads/${id}`, data),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["leads"] }),
   });
 
